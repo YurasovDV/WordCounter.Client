@@ -1,12 +1,10 @@
-FROM node:12.2.0
-
-WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-
-COPY package.json /app/package.json
+FROM node:12.7-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json ./
 RUN npm install
-RUN npm install -g @angular/cli@8.3.25
+COPY . .
+RUN npm run build
 
-COPY . /app
 
-CMD ng serve --host 0.0.0.0
+FROM nginx:1.17.1-alpine
+COPY --from=build /usr/src/app/dist/word-counter-client /usr/share/nginx/html
