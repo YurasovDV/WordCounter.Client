@@ -5,7 +5,7 @@
     </div>
     <label *ngIf="received">Words count: {{result}}</label>
     <br/>
-    <label *ngIf="sentArticleGuid != ''">Waiting for correlationId: {{sentArticleGuid}}</label>
+    <label *ngIf="!received && sentArticleGuid != ''">Waiting for correlationId: {{sentArticleGuid}}</label>
     <div>
         <button (click)="send()">Send to backend</button>
     </div>

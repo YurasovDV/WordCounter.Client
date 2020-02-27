@@ -33,7 +33,10 @@ private received: boolean;
     this.sentArticleGuid = '';
     this.articleService.send(formValues.value).subscribe(d => { 
       this.sentArticleGuid = <string>d; 
-      setTimeout(() => {this.articleService.getResult(this.sentArticleGuid).subscribe(d2 => this.result = Number.parseInt(d2))}, 5000);
+      setTimeout(() => {this.articleService.getResult(this.sentArticleGuid).subscribe(d2 => {
+         this.result = Number.parseInt(d2); 
+         this.received = true;
+        })}, 5000);
     });
   }
 }
