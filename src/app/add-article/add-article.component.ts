@@ -12,10 +12,12 @@ export class AddArticleComponent implements OnInit {
   private addForm: FormGroup;
   private result: number;
   private sentArticleGuid: string;
+private received: boolean;
 
   constructor(private formBuilder: FormBuilder, private articleService: ArticleService) {
     this.result = 0;
     this.sentArticleGuid = '';
+    this.received = false;
   }
 
   ngOnInit() {
@@ -26,6 +28,12 @@ export class AddArticleComponent implements OnInit {
 
   send() {
     const formValues = this.addForm.value;
-    this.articleService.send(formValues.value['value']).subscribe(d => this.sentArticleGuid = <string>d );
+    this.result = 0;
+    this.received = false;
+    this.sentArticleGuid = '';
+    this.articleService.send(formValues.value).subscribe(d => { 
+      this.sentArticleGuid = <string>d; 
+      setTimeout(() => {this.articleService.getResult(this.sentArticleGuid).subscribe(d2 => this.result = Number.parseInt(d2))}, 5000);
+    });
   }
 }
